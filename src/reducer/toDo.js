@@ -1,13 +1,24 @@
-const testValue = {name: 'Test', id: 0, list: [{name: 'do 1', date: '', done: false, urgency: false}]};
-const toDo = (state = new Map([[0, testValue]]),
+const toDo = (state = {
+                  0: {name: 'Test', list: [{name: 'do 1', date: '', done: false, urgency: false}]},
+                  1: {name: 'Test', list: [{name: 'do 1', date: '', done: false, urgency: false}]}
+              },
               action) => {
-    console.log(state);
+    console.log(state, action);
     switch (action.type) {
         case 'ADD_TODOLIST':
-            return state.set(action.id, {
-                name: action.name,
-                id: action.id,
-                list: [{name: 'do 1', date: '', done: false, urgency: false}]
+            console.log(Object.assign({}, state, {
+                [action.id]: {
+                    name: action.name,
+                    id: action.id,
+                    list: [{name: 'do 1', date: '', done: false, urgency: false}]
+                }
+            }));
+            return Object.assign({}, state, {
+                [action.id]: {
+                    name: action.name,
+                    id: action.id,
+                    list: [{name: 'do 1', date: '', done: false, urgency: false}]
+                }
             });
         case 'EDIT_TODOLIST':
             return state.set(action.id, {

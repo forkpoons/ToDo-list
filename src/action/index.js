@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const MockAdapter = require('axios-mock-adapter');
 const mock = new MockAdapter(axios);
-mock.onPost('/addtodolist').reply(200, {id: (Math.floor(Math.random() * (1000 - 1)) + 1000)});
+mock.onPost('/addtodolist').reply(200, {id: (Math.floor((Math.random() * (1000 - 1)) + 1000))});
 mock.onPost('/edittodolist').reply(200);
 
 export const addToDoList = (name) => {
@@ -10,8 +10,8 @@ export const addToDoList = (name) => {
         return axios.post('/addtodolist', {
             Name: name,  headers: {'Content-Type': 'application/json'}
         })
-            .then(function (response) {
-                dispatch(addsToDoList(response.data.id, name))
+            .then(function () {
+                dispatch(addsToDoList(Math.floor((Math.random() * (1000 - 1)) + 1000), name))
             }).catch(function (error) {
                 console.log(error);
             });

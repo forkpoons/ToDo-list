@@ -24,19 +24,23 @@ const ToDoList = ({toDo, onAddTodolist, onEditTodolist}) => {
         setShow(true);
         setValue(name);
     };
-
-    let todolists = [];
-    toDo.forEach((todo, key, map) => (
-        todolists[key] = <ToDoListCard toDo={todo} Show={handleShow} setIsEdit={setIsEdit} setEditID={setEditID}/>
-    ));
-
+    console.log(toDo[0].name);
+    let toDoListCard = [];
+    console.log('1',toDoListCard);
+    let i = 0;
+    for (let key in toDo) {
+        console.log('2',toDoListCard);
+        toDoListCard[i] = <ToDoListCard name={toDo[key].name} id={key} Show={handleShow} setIsEdit={setIsEdit} setEditID={setEditID}/>;
+        i++;
+    }
+console.log('3',toDoListCard);
     return (
         <div className='toDoList'>
             <div>
                 filter
             </div>
             <div>
-                {todolists.map(e => e)}
+                {toDoListCard}
             </div>
             <div style={{margin: '20px 0 0'}}>
                 <Button onClick={() => handleShow("")}>add</Button>
@@ -46,19 +50,18 @@ const ToDoList = ({toDo, onAddTodolist, onEditTodolist}) => {
                     <Modal.Title>{isEdit ? "Изменить" : "Добавить"} список дел.</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Название <Form.Control type="text" placeholder="" value={value} onChange={handleChange}
-                                           id="inputAddList" isInvalid={isInvalid}/>
+                    Название
+                    <Form.Control type="text" placeholder="" value={value} onChange={handleChange}
+                                  id="inputAddList" isInvalid={isInvalid}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => {
                         if (value !== "") {
                             handleClose();
-                            if (isEdit)
-                            {
+                            if (isEdit) {
                                 console.log("qwe");
                                 onEditTodolist(value, editID);
-                            }
-                            else
+                            } else
                                 onAddTodolist(value);
                         } else {
                             setIsInvalid(true)
