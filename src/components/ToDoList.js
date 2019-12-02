@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from 'react-redux';
 import ToDoListCard from "./ToDoListCard";
-import {addToDoList, editToDoList} from "../action/index";
+import {addToDoList, deleteToDoList, editToDoList} from "../action/index";
 import {Button, Modal, Form} from 'react-bootstrap';
 
 const ToDoList = ({toDo, onAddTodolist, onEditTodolist}) => {
@@ -24,20 +24,16 @@ const ToDoList = ({toDo, onAddTodolist, onEditTodolist}) => {
         setShow(true);
         setValue(name);
     };
-    console.log(toDo[0].name);
-    let toDoListCard = [];
-    console.log('1',toDoListCard);
-    let i = 0;
+    console.log(toDo);
+    let toDoListCard = [], i = 0;
     for (let key in toDo) {
-        console.log('2',toDoListCard);
         toDoListCard[i] = <ToDoListCard name={toDo[key].name} id={key} Show={handleShow} setIsEdit={setIsEdit} setEditID={setEditID}/>;
         i++;
     }
-console.log('3',toDoListCard);
     return (
         <div className='toDoList'>
             <div>
-                filter
+                filter{toDo[0].name}
             </div>
             <div>
                 {toDoListCard}
@@ -60,7 +56,7 @@ console.log('3',toDoListCard);
                             handleClose();
                             if (isEdit) {
                                 console.log("qwe");
-                                onEditTodolist(value, editID);
+                                onEditTodolist(editID, value);
                             } else
                                 onAddTodolist(value);
                         } else {

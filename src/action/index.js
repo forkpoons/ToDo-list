@@ -4,6 +4,7 @@ const MockAdapter = require('axios-mock-adapter');
 const mock = new MockAdapter(axios);
 mock.onPost('/addtodolist').reply(200, {id: (Math.floor((Math.random() * (1000 - 1)) + 1000))});
 mock.onPost('/edittodolist').reply(200);
+mock.onPost('/deletetodolist').reply(200);
 
 export const addToDoList = (name) => {
     return function(dispatch){
@@ -26,7 +27,7 @@ export const addsToDoList = (id, name) => {
     }
 };
 
-export const editToDoList = (name, id) => {
+export const editToDoList = (id, name) => {
     return function(dispatch){
         return axios.post('/edittodolist', {
             id: id,  Name: name,  headers: {'Content-Type': 'application/json'}
@@ -47,8 +48,20 @@ export const editsToDoList = (id, name) => {
         id,
     }
 };
-
-export const deleteToDoList = (id) => {
+export const deleteToDoList = (id, name) => {
+    return function(dispatch){
+        return axios.post('/deletetodolist', {
+            id: id,  Name: name,  headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                dispatch(deletesToDoList(id))
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+};
+export const deletesToDoList = (id) => {
     return {
         type: 'DELETE_TODOLIST',
         id,

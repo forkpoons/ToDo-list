@@ -1,5 +1,5 @@
 import React from "react";
-import {addToDoList} from "../action";
+import {deleteToDoList} from "../action/index";
 import {connect} from "react-redux";
 
 const ToDoListCard = ({name, id, Show, setIsEdit, setEditID, onDeleteTodoList}) => {
@@ -14,13 +14,16 @@ const ToDoListCard = ({name, id, Show, setIsEdit, setEditID, onDeleteTodoList}) 
         </div>
     )
 };
-
+const mapStateToProps = () => {
+    return {}
+};
 const mapDispatchToProps = (dispatch) => {
     return {
-        onDeleteTodoList: (name) => {
-            dispatch(addToDoList(name))
+        onDeleteTodoList: (id) => {
+            dispatch(deleteToDoList(id))
         },
     }
 };
 
-export default connect( mapDispatchToProps)(ToDoListCard);
+
+export default connect(mapStateToProps,mapDispatchToProps)(ToDoListCard);

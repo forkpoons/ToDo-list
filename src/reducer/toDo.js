@@ -6,28 +6,23 @@ const toDo = (state = {
     console.log(state, action);
     switch (action.type) {
         case 'ADD_TODOLIST':
-            console.log(Object.assign({}, state, {
-                [action.id]: {
-                    name: action.name,
-                    id: action.id,
-                    list: [{name: 'do 1', date: '', done: false, urgency: false}]
-                }
-            }));
             return Object.assign({}, state, {
                 [action.id]: {
                     name: action.name,
-                    id: action.id,
-                    list: [{name: 'do 1', date: '', done: false, urgency: false}]
+                    list: [{name: 'do 1', date: '', done: false, urgency: false}],
                 }
             });
         case 'EDIT_TODOLIST':
-            return state.set(action.id, {
-                name: action.name,
-                id: action.id,
-                list: [{name: 'do 1', date: '', done: false, urgency: false}]
+            return Object.assign({}, state, {
+                [action.id]: {
+                    name: action.name,
+                    list: state[action.id].list,
+                }
             });
         case 'DELETE_TODOLIST':
-            return state.delete(action.id);
+            let newState =  state;
+            delete newState[action.id];
+            return Object.assign({}, newState,{});
         default:
             return state;
     }
