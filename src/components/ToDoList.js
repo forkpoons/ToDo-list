@@ -1,10 +1,10 @@
 import React from "react";
 import {connect} from 'react-redux';
 import ToDoListCard from "./ToDoListCard";
-import {addToDoList, deleteToDoList, editToDoList} from "../action/index";
+import {addToDoList, editToDoList, setUseListID} from "../action/index";
 import {Button, Modal, Form} from 'react-bootstrap';
 
-const ToDoList = ({toDo, onAddTodolist, onEditTodolist}) => {
+const ToDoList = ({toDo, onAddTodolist, onEditTodolist, onSetUseListID}) => {
     const [show, setShow] = React.useState(false);
     const [value, setValue] = React.useState("");
     const [isInvalid, setIsInvalid] = React.useState(false);
@@ -24,19 +24,21 @@ const ToDoList = ({toDo, onAddTodolist, onEditTodolist}) => {
         setShow(true);
         setValue(name);
     };
-    console.log(toDo);
-    let toDoListCard = [], i = 0;
+
+    let toDoListCard = [];
     for (let key in toDo) {
-        toDoListCard[i] = <ToDoListCard name={toDo[key].name} id={key} Show={handleShow} setIsEdit={setIsEdit} setEditID={setEditID}/>;
-        i++;
+        toDoListCard.push(toDo[key]);
+        toDoListCard[toDoListCard.length-1].id = key*1;
     }
+    console.log(toDoListCard);
     return (
         <div className='toDoList'>
             <div>
-                filter{toDo[0].name}
+                filter
             </div>
             <div>
-                {toDoListCard}
+                {toDoListCard.map(todo => (<ToDoListCard key={todo.id} name={todo.name} id={todo.id} Show={handleShow} setIsEdit={setIsEdit}
+                                                         setEditID={setEditID} onClick={() => onSetUseListID(todo.id)}/>))}
             </div>
             <div style={{margin: '20px 0 0'}}>
                 <Button onClick={() => handleShow("")}>add</Button>
@@ -84,6 +86,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onEditTodolist: (id, name) => {
             dispatch(editToDoList(id, name))
+        },
+        onSetUseListID: (id) => {
+            dispatch(setUseListID(id))
         },
     }
 };

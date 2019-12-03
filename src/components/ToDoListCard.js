@@ -2,14 +2,19 @@ import React from "react";
 import {deleteToDoList} from "../action/index";
 import {connect} from "react-redux";
 
-const ToDoListCard = ({name, id, Show, setIsEdit, setEditID, onDeleteTodoList}) => {
-    console.log('sss',name);
+const ToDoListCard = ({name, id, Show, setIsEdit, setEditID, onDeleteTodoList, onClick}) => {
     return (
-        <div>
+        <div onClick={onClick}>
             <div>
                 {name}
             </div>
-            <button onClick={() => {Show(name); setIsEdit(true); setEditID(id)}}>edit</button>
+            <button onClick={() => {
+                Show(name);
+                setIsEdit(true);
+                setEditID(id)
+            }}>
+                edit
+            </button>
             <button onClick={() => onDeleteTodoList(id)}>delete</button>
         </div>
     )
@@ -25,5 +30,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-
-export default connect(mapStateToProps,mapDispatchToProps)(ToDoListCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoListCard);

@@ -7,9 +7,22 @@ mock.onPost('/edittodolist').reply(200);
 mock.onPost('/deletetodolist').reply(200);
 
 export const addToDoList = (name) => {
-    return function(dispatch){
+    return function (dispatch) {
         return axios.post('/addtodolist', {
-            Name: name,  headers: {'Content-Type': 'application/json'}
+            Name: name, headers: {'Content-Type': 'application/json'}
+        })
+            .then(function () {
+                dispatch(addsToDoList(Math.floor((Math.random() * (1000 - 1)) + 1000), name))
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+};
+
+export const addToDo = (name) => {
+    return function (dispatch) {
+        return axios.post('/addtodolist', {
+            Name: name, headers: {'Content-Type': 'application/json'}
         })
             .then(function () {
                 dispatch(addsToDoList(Math.floor((Math.random() * (1000 - 1)) + 1000), name))
@@ -28,9 +41,23 @@ export const addsToDoList = (id, name) => {
 };
 
 export const editToDoList = (id, name) => {
-    return function(dispatch){
+    return function (dispatch) {
         return axios.post('/edittodolist', {
-            id: id,  Name: name,  headers: {'Content-Type': 'application/json'}
+            id: id, Name: name, headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                dispatch(editsToDoList(id, name))
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }
+};
+
+export const editToDo = (id, name) => {
+    return function (dispatch) {
+        return axios.post('/edittodolist', {
+            id: id, Name: name, headers: {'Content-Type': 'application/json'}
         })
             .then(function (response) {
                 console.log(response.data);
@@ -48,22 +75,31 @@ export const editsToDoList = (id, name) => {
         id,
     }
 };
+
 export const deleteToDoList = (id, name) => {
-    return function(dispatch){
+    return function (dispatch) {
         return axios.post('/deletetodolist', {
-            id: id,  Name: name,  headers: {'Content-Type': 'application/json'}
+            id: id, Name: name, headers: {'Content-Type': 'application/json'}
         })
             .then(function (response) {
-                console.log(response.data);
                 dispatch(deletesToDoList(id))
             }).catch(function (error) {
                 console.log(error);
             });
     }
 };
+
 export const deletesToDoList = (id) => {
     return {
         type: 'DELETE_TODOLIST',
         id,
     }
 };
+
+export const setUseListID = (id) => {
+    return {
+        type: 'SET_USELISTID',
+        id,
+    }
+};
+

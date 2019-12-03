@@ -2,6 +2,7 @@ import React from 'react';
 import './styles/App.sass';
 import Header from "./components/Header";
 import ToDoList from "./components/ToDoList";
+import ToDo from "./components/ToDo";
 import {Container, Row, Col} from 'react-bootstrap';
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
                         <ToDoList/>
                     </Col>
                     <Col md={6} xs={12}>
-                        <ToDoList/>
+                        <ToDo/>
                     </Col>
                 </Row>
             </Container>
