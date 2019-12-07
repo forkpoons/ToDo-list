@@ -3,14 +3,19 @@ import {Button} from 'react-bootstrap';
 import {deleteToDoList} from "../action";
 import {connect} from "react-redux";
 
-const ToDoCard = ({name, date}) => {
+const ToDoCard = ({name, date, id, Show, setIsEdit, setEditID}) => {
     return (
         <div>
             <div>
                 {name}
-                {date.toString()}
+                {date.toTimeString()}
             </div>
-            <Button>Edit</Button>
+            <Button onClick={() => {
+                Show(name);
+                setIsEdit(true);
+                setEditID(id)
+            }}> edit
+            </Button>
             <Button>Delete</Button>
         </div>
     )
@@ -19,6 +24,7 @@ const ToDoCard = ({name, date}) => {
 const mapStateToProps = () => {
     return {}
 };
+
 const mapDispatchToProps = (dispatch) => {
     return {
         onDeleteTodoList: (id) => {

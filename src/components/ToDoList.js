@@ -30,6 +30,7 @@ const ToDoList = ({toDo, onAddTodolist, onEditTodolist, onSetUseListID}) => {
         toDoListCard.push(toDo[key]);
         toDoListCard[toDoListCard.length-1].id = key*1;
     }
+
     console.log(toDoListCard);
     return (
         <div className='toDoList'>

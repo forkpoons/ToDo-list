@@ -19,16 +19,27 @@ export const addToDoList = (name) => {
     }
 };
 
-export const addToDo = (name) => {
+export const addToDo = (listid, name, urgency) => {
     return function (dispatch) {
         return axios.post('/addtodolist', {
             Name: name, headers: {'Content-Type': 'application/json'}
         })
             .then(function () {
-                dispatch(addsToDoList(Math.floor((Math.random() * (1000 - 1)) + 1000), name))
+                dispatch(addsToDo(listid, Math.floor((Math.random() * (1000 - 1)) + 1000), name, urgency, new Date()))
             }).catch(function (error) {
                 console.log(error);
             });
+    }
+};
+
+export const addsToDo = (listid, id, name, urgency, date) => {
+    return {
+        type: 'ADD_TODO',
+        listid,
+        name,
+        id,
+        urgency,
+        date,
     }
 };
 
@@ -54,17 +65,27 @@ export const editToDoList = (id, name) => {
     }
 };
 
-export const editToDo = (id, name) => {
+export const editToDo = (listid, id, name, urgency) => {
     return function (dispatch) {
         return axios.post('/edittodolist', {
             id: id, Name: name, headers: {'Content-Type': 'application/json'}
         })
             .then(function (response) {
                 console.log(response.data);
-                dispatch(editsToDoList(id, name))
+                dispatch(editsToDo(listid, id, name, urgency))
             }).catch(function (error) {
                 console.log(error);
             });
+    }
+};
+
+export const editsToDo = (listid, id, name, urgency) => {
+    return {
+        type: 'EDIT_TODO',
+        listid,
+        name,
+        id,
+        urgency,
     }
 };
 

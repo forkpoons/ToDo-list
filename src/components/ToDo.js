@@ -15,20 +15,22 @@ const ToDoList = ({toDo, status, onAddTodo, onEditTodo}) => {
         setValue(event.target.value);
         setIsInvalid(false)
     };
+
     const handleClose = () => {
         setShow(false);
         setIsInvalid(false);
         setIsEdit(false);
     };
+
     const handleShow = name => {
         setShow(true);
         setValue(name);
     };
 
-    let toDoListCard = [];
-    for (let key in toDo) {
-        toDoListCard.push(toDo[key]);
-        toDoListCard[toDoListCard.length-1].id = key*1;
+    let toDoCard = [];
+    for (let key in toDo[status.useListID].list) {
+        toDoCard.push(toDo[status.useListID].list[key]);
+        toDoCard[toDoCard.length-1].id = key*1;
     }
 
     return (
@@ -37,7 +39,8 @@ const ToDoList = ({toDo, status, onAddTodo, onEditTodo}) => {
                 {toDo[status.useListID].name}
             </div>
             <div>
-                {toDo[status.useListID].list.map(todo => (<ToDoCard name={todo.name} date={todo.date}/>))}
+                {toDoCard.map(todo => (<ToDoCard name={todo.name} date={todo.date} id={todo.id} Show={handleShow} setIsEdit={setIsEdit}
+                                                 setEditID={setEditID} />))}
             </div>
             <div style={{margin: '20px 0 0'}}>
                 <Button onClick={() => handleShow("")}>add</Button>
@@ -59,7 +62,7 @@ const ToDoList = ({toDo, status, onAddTodo, onEditTodo}) => {
                                 console.log("qwe");
                                 onEditTodo(editID, value);
                             } else
-                                onAddTodo(value);
+                                onAddTodo(status.useListID, value, true);
                         } else {
                             setIsInvalid(true)
                         }
@@ -81,11 +84,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAddTodo: (listid, name) => {
-            dispatch(addToDo(listid, name))
+        onAddTodo: (listid, name, urgency) => {
+            dispatch(addToDo(listid, name, urgency))
         },
-        onEditTodo: (listid, id, name) => {
-            dispatch(editToDo(listid ,id, name))
+        onEditTodo: (listid, id, name, urgency) => {
+            dispatch(editToDo(listid ,id, name, urgency))
         },
     }
 };

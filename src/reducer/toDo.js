@@ -1,9 +1,11 @@
 const toDo = (state = {
-                  0: {name: 'Test', list: [{name: 'do 1', date: new Date(), done: false, urgency: false}]},
-                  1: {name: 'Test', list: [{name: 'do 1', date: new Date(), done: false, urgency: false}]}
+                  0: {name: 'Test', list: {0:{name: 'do 1', date: new Date(), done: false, urgency: false}}},
+                  1: {name: 'Test', list: {0:{name: 'do 1', date: new Date(), done: false, urgency: false}}}
               },
               action) => {
     console.log(state, action);
+
+    let newState;
     switch (action.type) {
         case 'ADD_TODOLIST':
             return {
@@ -12,8 +14,14 @@ const toDo = (state = {
                     name: action.name,
                     list: [{name: 'do 1', date: new Date(), done: false, urgency: false}],
                 }
-            }
-                ;
+            };
+        case 'ADD_TODO':
+        case 'EDIT_TODO':
+            return {
+                ...state,
+                [action.listid]: {
+                    list: {...state[action.listid].list,  [action.id]: {name: action.name, date: new Date(), done: false, urgency: action.urgency}},
+                }};
         case 'EDIT_TODOLIST':
             return {
                 ...state,
@@ -23,7 +31,7 @@ const toDo = (state = {
                 }
             };
         case 'DELETE_TODOLIST':
-            let newState = state;
+            newState = state;
             delete newState[action.id];
             return Object.assign({}, newState, {});
         default:
