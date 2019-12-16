@@ -1,4 +1,4 @@
-const user = (state = {name:'Username'}, action) => {
+const user = (state = {name: 'Username'}, action) => {
 
     return state;
 };

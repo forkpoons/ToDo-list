@@ -4,8 +4,8 @@ import {connect} from "react-redux";
 
 const ToDoListCard = ({name, id, Show, setIsEdit, setEditID, onDeleteTodoList, onClick}) => {
     return (
-        <div onClick={onClick}>
-            <div>
+        <div>
+            <div onClick={onClick}>
                 {name}
             </div>
             <button onClick={() => {

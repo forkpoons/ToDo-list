@@ -1,9 +1,9 @@
 import React from "react";
 import {Button} from 'react-bootstrap';
-import {deleteToDoList} from "../action";
+import {deleteToDo} from "../action";
 import {connect} from "react-redux";
 
-const ToDoCard = ({name, date, id, Show, setIsEdit, setEditID}) => {
+const ToDoCard = ({name, date, id, Show, setIsEdit, setEditID, status, onDeleteTodo}) => {
     return (
         <div>
             <div>
@@ -16,19 +16,19 @@ const ToDoCard = ({name, date, id, Show, setIsEdit, setEditID}) => {
                 setEditID(id)
             }}> edit
             </Button>
-            <Button>Delete</Button>
+            <Button onClick={() => onDeleteTodo(status.useListID, id)}>Delete</Button>
         </div>
     )
 };
 
-const mapStateToProps = () => {
-    return {}
+const mapStateToProps = (state) => {
+    return {status: state.status,}
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onDeleteTodoList: (id) => {
-            dispatch(deleteToDoList(id))
+        onDeleteTodo: (listid, id) => {
+            dispatch(deleteToDo(listid, id))
         },
     }
 };

@@ -28,19 +28,21 @@ const ToDoList = ({toDo, status, onAddTodo, onEditTodo}) => {
     };
 
     let toDoCard = [];
-    for (let key in toDo[status.useListID].list) {
-        toDoCard.push(toDo[status.useListID].list[key]);
-        toDoCard[toDoCard.length-1].id = key*1;
+    if (status.useListID !== 0) {
+        for (let key in toDo[status.useListID].list) {
+            toDoCard.push(toDo[status.useListID].list[key]);
+            toDoCard[toDoCard.length - 1].id = key * 1;
+        }
     }
 
     return (
-        <div className='toDoList'>
+        <div className='toDo'>
             <div>
-                {toDo[status.useListID].name}
+                {status.useListID ? toDo[status.useListID].name : status.useListID}
             </div>
             <div>
                 {toDoCard.map(todo => (<ToDoCard name={todo.name} date={todo.date} id={todo.id} Show={handleShow} setIsEdit={setIsEdit}
-                                                 setEditID={setEditID} />))}
+                                                 setEditID={setEditID} key={todo.id}/>))}
             </div>
             <div style={{margin: '20px 0 0'}}>
                 <Button onClick={() => handleShow("")}>add</Button>
@@ -60,7 +62,7 @@ const ToDoList = ({toDo, status, onAddTodo, onEditTodo}) => {
                             handleClose();
                             if (isEdit) {
                                 console.log("qwe");
-                                onEditTodo(editID, value);
+                                onEditTodo(status.useListID, editID, value);
                             } else
                                 onAddTodo(status.useListID, value, true);
                         } else {
