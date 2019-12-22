@@ -2,9 +2,9 @@ import React from "react";
 import {deleteToDoList} from "../action/index";
 import {connect} from "react-redux";
 
-const ToDoListCard = ({name, id, Show, setIsEdit, setEditID, onDeleteTodoList, onClick}) => {
+const ToDoListCard = ({name, id, Show, done, setIsEdit, setEditID, onDeleteTodoList, onClick}) => {
     return (
-        <div>
+        <div>{done}
             <div onClick={onClick}>
                 {name}
             </div>

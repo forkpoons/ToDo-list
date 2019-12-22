@@ -119,6 +119,15 @@ export const editsToDo = (listid, id, name, urgency) => {
     }
 };
 
+export const doneToDo = (listid, id, done) => {
+    return {
+        type: 'DONE_TODO',
+        listid,
+        id,
+        done,
+    }
+};
+
 export const deleteToDo = (listid, id) => {
     return function (dispatch) {
         return axios.post('/edittodolist', {
@@ -145,6 +154,14 @@ export const setUseListID = (id) => {
     return {
         type: 'SET_USELISTID',
         id,
+    }
+};
+
+
+export const setFilter = (filter) => {
+    return {
+        type: 'SET_FILTER',
+        filter,
     }
 };
 

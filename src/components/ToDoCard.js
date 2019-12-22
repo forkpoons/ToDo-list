@@ -1,17 +1,24 @@
 import React from "react";
-import {Button} from 'react-bootstrap';
-import {deleteToDo} from "../action";
+import {Button, Form} from 'react-bootstrap';
+import {deleteToDo, doneToDo} from "../action";
 import {connect} from "react-redux";
 
-const ToDoCard = ({name, date, id, Show, setIsEdit, setEditID, status, onDeleteTodo}) => {
+const ToDoCard = ({name, date, id, urgency, done, Show, setIsEdit, setEditID, status, onDeleteTodo, onDoneToDo}) => {
+    const handleDone = (event) => {
+        console.log("event");
+        onDoneToDo(status.useListID, id, event.target.checked);
+    };
+
     return (
         <div>
             <div>
+                <Form.Check custom checked={done} type="checkbox" label=" " id={"ch" + id} inline onChange={handleDone}/>
+                {urgency ? "X " : "O "}
                 {name}
                 {date.toTimeString()}
             </div>
             <Button onClick={() => {
-                Show(name);
+                Show(name, urgency);
                 setIsEdit(true);
                 setEditID(id)
             }}> edit
@@ -28,8 +35,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onDeleteTodo: (listid, id) => {
-            dispatch(deleteToDo(listid, id))
+            dispatch(deleteToDo(listid, id));
         },
+        onDoneToDo: (listid, id, done) => {
+            dispatch(doneToDo(listid, id, done));
+        }
     }
 };
 
